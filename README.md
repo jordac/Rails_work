@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 THIS REPOSITORY IS DEPRECATED AND WILL SOON BE DELETED.  DO NOT USE IT.
 =======================================================================
 
@@ -30,3 +31,9 @@ that has been tested with the current autograders.  That code, and ONLY
 that code, should be used as the basis of your homework assignments.
 
 Thanks - the CS169 course authors
+=======
+Rails_work
+==========
+
+coursework
+>>>>>>> 43da108c88af503bedc0ecd20ccd2a01467eaaaf
