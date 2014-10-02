@@ -5,7 +5,7 @@ Given /the following movies exist/ do |movies_table|
     # each returned element will be a hash whose key is the table header.
     # you should arrange to add that movie to the database here.
     if Movie.find_by_title(movie[:title]).nil?
-      Movie.create(title: movie[:title], rating: movie[:rating], release_date: movie[:release_date])
+      Movie.create(title: movie[:title], rating: movie[:rating], release_date: movie[:release_date], director: movie[:director])
     #flunk "#{movie[:title]} not in movie database"
     end
   end
@@ -54,3 +54,39 @@ Then /I should see all the movies/ do
     end
   end 
 end
+
+
+Then /the director of "(.*)" should be "(.*)"/ do |movie, dir|
+  # makes sure correct director for movie object
+  movie_obj = Movie.find_by_title(movie)
+  director = movie_obj[:director]
+  if director != dir
+    flunk "#{dir} != #{Movie.find_by_title(movie).director}"
+  end
+end
+
+Given /I am on the details page for "(.*)"/ do |mt|
+  movie_id = Movie.find_by_title(mt)[:id]
+  #puts movie_id
+  visit movie_path(movie_id)
+  #puts page.body
+end
+
+When /I follow "Find Movies With Same Director"/ do 
+  visit click_link("Find Movies With Same Director")
+  #puts page.body
+  #puts URI.parse(current_url).path
+end
+
+Then /^(?:|I )should be on (.+)$/ do |page_name|
+  current_path = URI.parse(current_url).path
+  if current_path.respond_to? :should
+    current_path.should == path_to(page_name)
+  else
+    assert_equal path_to(page_name), current_path
+  #puts path_to(page_name)
+  #puts current_path
+  end
+end
+
+

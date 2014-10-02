@@ -13,4 +13,8 @@
   = label :movie, :release_date, 'Released On'
   = date_select :movie, :release_date
 
+  = label :movie, :director, 'director'
+  = text_field :movie, 'director'
+  
+  <br>
   = submit_tag 'Update Movie Info'

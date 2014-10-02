@@ -1,0 +1,14 @@
+require 'spec_helper'
+
+describe MoviesController do
+  describe "searching for movies by director" do
+    it 'should call the model method that searches for director' do
+			post show_similar, {:id => 2}
+
+		end
+    it 'should select the show_similar view and render it'
+    it 'should make movies with identicle director visible'
+  end
+end
+
+	

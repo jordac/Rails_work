@@ -1,0 +1,9 @@
+%h1 Similar Movies
+
+%table
+  %tbody
+    - @similar.each do |movie|
+      %tr
+        %td= movie.title
+
+%h5= link_to "Back to the main page", movies_path

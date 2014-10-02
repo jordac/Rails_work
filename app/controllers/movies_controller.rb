@@ -21,15 +21,22 @@ class MoviesController < ApplicationController
       @selected_ratings = Hash[@all_ratings.map {|rating| [rating, rating]}]
     end
     
-    if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
+    if params[:sort] != session[:sort]
+      session[:sort] = sort
+      flash.keep
+      redirect_to :sort => sort, :ratings => @selected_ratings and return
+    end
+
+    if params[:ratings] != session[:ratings] and @selected_ratings != {}
       session[:sort] = sort
       session[:ratings] = @selected_ratings
+      flash.keep
       redirect_to :sort => sort, :ratings => @selected_ratings and return
     end
     @movies = Movie.find_all_by_rating(@selected_ratings.keys, ordering)
-
-    when 'director'
-    end
+		    
+		#remove movie if director != params[:director]
+    #@movies.delete_if{ |movie| movie.director != params[:director]}
   end
 
   def new
@@ -60,4 +67,15 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+  def show_similar
+    #populate @movie with calls to model
+    @movie = Movie.find_by_id params[:id]
+    @similar = {}
+    redirect_to movies_path(error: "'#{@movie.title unless @movie.nil?}' has no director info") if @movie.nil? || @movie[:director].nil?
+		#extra check...can be removed
+		if @movie[:director].nil? == false
+  	  flash[:notice] = "Only showing movies with same director as #{@movie[:title]}"
+		  @similar = Movie.find_all_by_director(@movie[:director])    
+		end
+  end
 end
